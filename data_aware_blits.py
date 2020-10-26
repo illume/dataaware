@@ -20,6 +20,7 @@ quicker on the particular hardware being used. What is the fast path?
 
 from io import BytesIO
 from urllib.request import urlopen
+import urllib
 import pygame
 from pygame.locals import *
 import time
@@ -29,9 +30,22 @@ pygame.init()
 
 
 screen = pygame.display.set_mode((800, 600))
-url = 'http://pygame-zero.readthedocs.io/en/latest/_images/alien.png'
+url = 'https://pygame-zero.readthedocs.io/en/latest/_images/alien.png'
+
+import urllib.request
+req = urllib.request.Request(
+    url,
+    data=None,
+    headers={
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+    }
+)
+
+f = urllib.request.urlopen(req)
 # surf = pygame.image.load(BytesIO(urlopen(url).read())).convert_alpha()
-orig_surf = pygame.image.load(BytesIO(urlopen(url).read()))
+#orig_surf = pygame.image.load(BytesIO(urlopen(url).read()))
+orig_surf = pygame.image.load(BytesIO(f.read()))
+
 
 
 def optimize(surf):
